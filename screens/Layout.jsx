@@ -4,20 +4,17 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   Keyboard,
-  Dimensions,  
+  Dimensions,
 } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { layoutStyles } from "../styles";
-import RegistrationScreen from "./RegistrationScreen";
-import LoginScreen from "./LoginScreen";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Layout() {
+export default function Layout({ children }) {
   const [isShownKeyboard, setIsShownKeyboard] = useState(false);
-  const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
-  const [isNewUser, setIsNewUser] = useState(true);
+  const [dimensions, setDimensions] = useState(Dimensions.get("window").width); 
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
@@ -38,6 +35,7 @@ export default function Layout() {
       hideSubscription.remove();
     };
   }, []);
+  
   const handleKeyboardHide = () => {
     setIsShownKeyboard(false);
     Keyboard.dismiss();
@@ -69,21 +67,7 @@ export default function Layout() {
           source={require("../assets/images/background.jpg")}
           resizeMode="cover"
         >
-          {isNewUser ? (
-            <RegistrationScreen
-              dimensions={dimensions}
-              setIsShownKeyboard={setIsShownKeyboard}
-              isShownKeyboard={isShownKeyboard}
-              setIsNewUser={setIsNewUser}
-            />
-          ) : (
-            <LoginScreen
-              dimensions={dimensions}
-              setIsShownKeyboard={setIsShownKeyboard}
-              isShownKeyboard={isShownKeyboard}
-              setIsNewUser={setIsNewUser}
-            />
-          )}
+          {children}
         </ImageBackground>
       </TouchableWithoutFeedback>
     </View>

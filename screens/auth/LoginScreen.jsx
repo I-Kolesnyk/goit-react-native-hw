@@ -8,8 +8,11 @@ import {
   Keyboard,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import Layout from "../Layout";
+import { authSignInUser } from "../../redux/auth/operations";
 import { authScreenStyles } from "../../styles";
 
 const initialFormState = {
@@ -17,11 +20,16 @@ const initialFormState = {
   password: "",
 };
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+  const [state, setState] = useState(initialFormState);
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const dispatch = useDispatch();
+
   const [isShownKeyboard, setIsShownKeyboard] = useState(false);
   const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
   const [user, setUser] = useState(initialFormState);
-  const [isPasswordShown, setIsPasswordShown] = useState(true);
+
+
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
@@ -44,22 +52,18 @@ export default function LoginScreen() {
   }, []);
 
   const handleKeyboardHideOnBtnClick = () => {
+    const { password, email } = state;
+    if (!email || !password) {
+      alert("Пожалуйста, заполните все поля.");
+      return;
+    }
     setIsShownKeyboard(false);
     Keyboard.dismiss();
-    console.log(user);
-    setUser(initialFormState);
+    dispatch(authSignInUser(state));
   };
 
   const handlePasswordVisibility = () => {
-    if (!isPasswordShown) {
-      setIsPasswordShown(true);
-    } else {
-      setIsPasswordShown(false);
-    }
-  };
-
-  const handleSignUp = () => {
-    setIsNewUser(true);
+    setIsPasswordShown((prevState) => !prevState);
   };
 
   return (
@@ -79,20 +83,20 @@ export default function LoginScreen() {
           <View style={{ width: dimensions - 16 * 2 }}>
             <TextInput
               style={authScreenStyles.input}
-              value={user.email}
+              value={state.email}
               placeholder={"Email"}
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
                 setIsShownKeyboard(true);
               }}
               onChangeText={(value) =>
-                setUser((prevState) => ({ ...prevState, email: value }))
+                setState((prevState) => ({ ...prevState, email: value }))
               }
             />
             <View style={authScreenStyles.passwordInputWrapper}>
               <TextInput
                 style={authScreenStyles.input}
-                value={user.password}
+                value={state.password}
                 placeholder={"Password"}
                 placeholderTextColor={"#BDBDBD"}
                 secureTextEntry={isPasswordShown}
@@ -100,7 +104,10 @@ export default function LoginScreen() {
                   setIsShownKeyboard(true);
                 }}
                 onChangeText={(value) =>
-                  setUser((prevState) => ({ ...prevState, password: value }))
+                  setState((prevState) => ({
+                    ...prevState,
+                    password: value,
+                  }))
                 }
               />
               <TouchableOpacity
@@ -119,7 +126,9 @@ export default function LoginScreen() {
             >
               <Text style={authScreenStyles.buttonTitle}>Log in</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleSignUp}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Registration")}
+            >
               <Text style={authScreenStyles.redirectionText}>
                 Don't have account? Sign up
               </Text>

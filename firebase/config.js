@@ -5,13 +5,14 @@ import { initializeAuth, browserSessionPersistence } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB5DGJODm8FsymWUW7AQVED8SsZR9Zr7UM",
-  authDomain: "mobile-app-df30e.firebaseapp.com",
-  projectId: "mobile-app-df30e",
-  storageBucket: "mobile-app-df30e.appspot.com",
-  messagingSenderId: "1013391820690",
-  appId: "1:1013391820690:web:e000c724ad9a6a05c0634b",
-  measurementId: "G-M0QGNCGQVF"
+  apiKey: "AIzaSyAhL13sM5C1TEDO3tJhkSvb7bB8uDyy6q4",
+  authDomain: "blog-77224.firebaseapp.com",
+  databaseURL: "https://blog-77224-default-rtdb.firebaseio.com",
+  projectId: "blog-77224",
+  storageBucket: "blog-77224.appspot.com",
+  messagingSenderId: "697067615075",
+  appId: "1:697067615075:web:262e64d2bb1be5bbdcd956",
+  measurementId: "G-RRCHP468V0"
 };
 
 // Initialize Firebase

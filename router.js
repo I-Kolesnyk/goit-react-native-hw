@@ -1,14 +1,19 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { HeaderBackButton } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
 import { TouchableOpacity } from "react-native";
 import { Feather, Ionicons, Entypo, AntDesign } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/AntDesign";
+import ArrowIcon from "react-native-vector-icons/AntDesign";
 
 import LoginScreen from "./screens/auth/LoginScreen";
 import RegistrationScreen from "./screens/auth/RegistrationScreen";
 
-import HomeScreen from "./screens/main/HomeScreen";
+import PostsScreen from "./screens/main/PostsScreen";
 import CreatePostsScreen from "./screens/main/CreatePostsScreen";
 import ProfileScreen from "./screens/main/ProfileScreen";
 
@@ -48,11 +53,13 @@ export const useRouter = (stateChange) => {
             );
           },
         }}
-        name="Home"
-        component={HomeScreen}
+        name="Posts"
+        component={PostsScreen}
       />
       <MainTab.Screen
         options={{
+          headerShown: true,
+          headerTitleAlign: "center",
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons

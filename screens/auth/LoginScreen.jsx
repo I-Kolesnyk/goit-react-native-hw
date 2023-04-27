@@ -23,13 +23,9 @@ const initialFormState = {
 export default function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialFormState);
   const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const dispatch = useDispatch();
-
   const [isShownKeyboard, setIsShownKeyboard] = useState(false);
   const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
-  const [user, setUser] = useState(initialFormState);
-
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
@@ -54,7 +50,7 @@ export default function LoginScreen({ navigation }) {
   const handleKeyboardHideOnBtnClick = () => {
     const { password, email } = state;
     if (!email || !password) {
-      alert("Пожалуйста, заполните все поля.");
+      alert("Please fill in all fields");
       return;
     }
     setIsShownKeyboard(false);

@@ -4,7 +4,7 @@ export const appStyles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: "#fff",
-      alignItems: "center",
+      // alignItems: "center",
       justifyContent: "flex-end",
     },
   });

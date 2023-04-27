@@ -23,11 +23,10 @@ const initialFormState = {
 export default function RegistrationScreen({ navigation }) {
   const [state, setState] = useState(initialFormState);
   const [isPasswordShown, setIsPasswordShown] = useState(true);
-  const dispatch = useDispatch();
-
   const [isShownKeyboard, setIsShownKeyboard] = useState(false);
   const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
-  const [user, setUser] = useState(initialFormState);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
@@ -52,12 +51,13 @@ export default function RegistrationScreen({ navigation }) {
   const handleKeyboardHideOnBtnClick = () => {
     const { login, password, email } = state;
     if (!login || !password || !email) {
-      alert("Пожалуйста, заполните все поля.");
+      alert("Please fill in all fields");
       return;
     }
     setIsShownKeyboard(false);
     Keyboard.dismiss();
     dispatch(authSignUpUser(state));
+    
   };
 
   const handlePasswordVisibility = () => {

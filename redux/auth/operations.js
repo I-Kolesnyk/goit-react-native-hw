@@ -69,9 +69,9 @@ import { authSlice } from "./slice";
     }
   };
   
-  export const authStateChangeUser = () => async (dispatch, getState) => {
+  export const authStateChangeUser = () =>  (dispatch, getState) => {
     try {
-      await onAuthStateChanged(auth, (user) => {
+       onAuthStateChanged(auth, (user) => {
         if (user) {
           const userUpdateProfile = {
             login: user.displayName,

@@ -1,19 +1,25 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-const CommentsScreen = () => {
+import Layout from "../Layout";
+
+export default function CommentsScreen() {
   return (
-    <View style={styles.container}>
-      <Text>CommentsScreen</Text>
-    </View>
+    <Layout>
+      <View style={styles.container}>
+        <Text style={styles.text}>Comments</Text>
+      </View>
+    </Layout>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 30,
+    color: "#ffffff",
   },
 });
-
-export default CommentsScreen;

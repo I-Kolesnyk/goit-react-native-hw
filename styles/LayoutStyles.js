@@ -7,6 +7,6 @@ export const layoutStyles = StyleSheet.create({
   image: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center",
+    // alignItems: "center",
   },
 });

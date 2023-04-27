@@ -5,7 +5,7 @@ import {
     updateProfile,
     onAuthStateChanged,
   } from "firebase/auth";
- import { auth, db } from "../../firebase/config";
+ import { auth, db } from "../../src/firebase/config";
   import { setDoc, doc } from "firebase/firestore";
 import { authSlice } from "./slice";
   const { updateUserProfile, authStateChange, authSignOut } = authSlice.actions;

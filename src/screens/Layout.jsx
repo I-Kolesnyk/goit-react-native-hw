@@ -8,13 +8,13 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { layoutStyles } from "../styles";
+import { layoutStyles } from "../src/styles";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout({ children }) {
   const [isShownKeyboard, setIsShownKeyboard] = useState(false);
-  const [dimensions, setDimensions] = useState(Dimensions.get("window").width); 
+  const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
@@ -35,7 +35,7 @@ export default function Layout({ children }) {
       hideSubscription.remove();
     };
   }, []);
-  
+
   const handleKeyboardHide = () => {
     setIsShownKeyboard(false);
     Keyboard.dismiss();

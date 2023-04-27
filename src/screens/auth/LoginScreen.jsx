@@ -10,23 +10,22 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Layout from "../Layout";
-import { authSignUpUser } from "../../redux/auth/operations";
+
+import Layout from "../../../screens/Layout";
+import { authSignInUser } from "../../redux/auth/operations";
 import { authScreenStyles } from "../../styles";
 
 const initialFormState = {
-  login: "",
   email: "",
   password: "",
 };
 
-export default function RegistrationScreen({ navigation }) {
+export default function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialFormState);
-  const [isPasswordShown, setIsPasswordShown] = useState(true);
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isShownKeyboard, setIsShownKeyboard] = useState(false);
   const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
@@ -49,15 +48,14 @@ export default function RegistrationScreen({ navigation }) {
   }, []);
 
   const handleKeyboardHideOnBtnClick = () => {
-    const { login, password, email } = state;
-    if (!login || !password || !email) {
+    const { password, email } = state;
+    if (!email || !password) {
       alert("Please fill in all fields");
       return;
     }
     setIsShownKeyboard(false);
     Keyboard.dismiss();
-    dispatch(authSignUpUser(state));
-    
+    dispatch(authSignInUser(state));
   };
 
   const handlePasswordVisibility = () => {
@@ -70,26 +68,15 @@ export default function RegistrationScreen({ navigation }) {
         style={{
           ...authScreenStyles.formContainer,
           paddingBottom: isShownKeyboard ? 32 : 78,
+          paddingTop: 32,
           width: dimensions,
         }}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <Text style={authScreenStyles.text}>Registration</Text>
+          <Text style={authScreenStyles.text}>Log in</Text>
           <View style={{ width: dimensions - 16 * 2 }}>
-            <TextInput
-              style={authScreenStyles.input}
-              value={state.login}
-              placeholder={"Login"}
-              placeholderTextColor={"#BDBDBD"}
-              onFocus={() => {
-                setIsShownKeyboard(true);
-              }}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, login: value }))
-              }
-            />
             <TextInput
               style={authScreenStyles.input}
               value={state.email}
@@ -133,11 +120,13 @@ export default function RegistrationScreen({ navigation }) {
               activeOpacity={0.8}
               onPress={handleKeyboardHideOnBtnClick}
             >
-              <Text style={authScreenStyles.buttonTitle}>Register</Text>
+              <Text style={authScreenStyles.buttonTitle}>Log in</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Registration")}
+            >
               <Text style={authScreenStyles.redirectionText}>
-                Already have account? Sign in
+                Don't have account? Sign up
               </Text>
             </TouchableOpacity>
           </View>

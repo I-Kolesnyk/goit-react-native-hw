@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { authStateChangeUser } from "../redux/auth/operations";
-import { useRouter } from "../router";
+import { useRouter } from "../src/router";
 
 const Container = () => {
   const { stateChange } = useSelector((state) => state.auth);

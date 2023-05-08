@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { Text, View, Image } from "react-native";
 
-import { selectEmail, selectLogin } from "../../src/redux/auth/selectors";
+import { selectEmail, selectLogin } from "../../redux/auth/selectors";
 
 import Layout from "../Layout";
 import Button from "../../components/Button";
 
-import { homeScreenStyles } from "../../src/styles";
+import { homeScreenStyles } from "../../styles";
 
 export default function HomeScreen({ navigation }) {
   const login = useSelector(selectLogin);

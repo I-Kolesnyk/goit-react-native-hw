@@ -1,9 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { authStateChangeUser } from "../redux/auth/operations";
-import { useRouter } from "../src/router";
+import { useRouter } from "../router";
 
 const Container = () => {
   const { stateChange } = useSelector((state) => state.auth);

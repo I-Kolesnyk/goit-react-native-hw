@@ -14,7 +14,7 @@ import DeleteIcon from "react-native-vector-icons/AntDesign";
 import ArrowIcon from "react-native-vector-icons/AntDesign";
 import PhotoIcon from "react-native-vector-icons/MaterialIcons";
 
-import Layout from "../../../screens/Layout";
+import Layout from "../Layout";
 import Button from "../../components/Button";
 
 import { createPostStyles } from "../../styles";

@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import Layout from "../../../screens/Layout";
+import Layout from "../Layout";
 import { authSignInUser } from "../../redux/auth/operations";
 import { authScreenStyles } from "../../styles";
 

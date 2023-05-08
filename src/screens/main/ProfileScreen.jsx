@@ -6,7 +6,7 @@ import LogOutIcon from "react-native-vector-icons/MaterialIcons";
 import { authSignOutUser } from "../../redux/auth/operations";
 import { selectLogin } from "../../redux/auth/selectors";
 
-import Layout from "../../../screens/Layout";
+import Layout from "../Layout";
 import { profileScreenStyles } from "../../styles";
 
 function ProfileScreen() {

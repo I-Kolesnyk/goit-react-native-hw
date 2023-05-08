@@ -4,9 +4,9 @@ import { TouchableOpacity } from "react-native";
 
 import { authSignOutUser } from "../../redux/auth/operations";
 
-import HomeScreen from "../../../screens/nested/HomeScreen";
-import MapScreen from "../../../screens/nested/MapScreen";
-import CommentsScreen from "../../../screens/nested/CommentsScreen";
+import HomeScreen from "../nested/HomeScreen";
+import MapScreen from "../nested/MapScreen";
+import CommentsScreen from "../nested/CommentsScreen";
 
 import ArrowIcon from "react-native-vector-icons/AntDesign";
 import LogOutIcon from "react-native-vector-icons/MaterialIcons";

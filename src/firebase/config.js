@@ -1,8 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { initializeAuth, browserSessionPersistence } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhL13sM5C1TEDO3tJhkSvb7bB8uDyy6q4",
@@ -15,11 +14,7 @@ const firebaseConfig = {
   measurementId: "G-RRCHP468V0"
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const auth = initializeAuth(app, {
-  persistence: browserSessionPersistence,
-  popupRedirectResolver: undefined,
-});
+export const auth = getAuth(app);
 export const storage = getStorage(app);

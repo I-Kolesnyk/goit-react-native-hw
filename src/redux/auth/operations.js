@@ -1,89 +1,106 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
   onAuthStateChanged,
+  updateProfile,
+  signOut,
 } from "firebase/auth";
+
 import { auth } from "../../firebase/config";
-import { setDoc, doc } from "firebase/firestore";
-import { authSlice } from "./slice";
-const { updateUserProfile, authStateChange, authSignOut } = authSlice.actions;
+import { uploadPhoto } from "../../firebase/uploadPhoto";
 
-export const authSignUpUser =
-  ({ email, password, login }) =>
-  async (dispatch, getState) => {
+export const signUp = createAsyncThunk(
+  "auth/signUp",
+  async (data, { rejectWithValue }) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const { uid } = auth.currentUser;
+      const url =
+        data.avatar && (await uploadPhoto(data.avatar, "avatars", uid));
 
-      const user = userCredential.user;
-
-      await updateProfile(user, {
-        displayName: login,
+      await updateProfile(auth.currentUser, {
+        displayName: data.username,
+        photoURL: url,
       });
+      const { email, displayName, photoURL } = auth.currentUser;
 
-      await setDoc(doc(db, "users/" + user.uid), {
-        uid: user.uid,
-        displayName: login,
-        email,
-      });
-
-      const userUpdateProfile = {
-        login: user.displayName,
-        userId: user.uid,
-        email: user.email,
-      };
-      console.log(login);
-      dispatch(updateUserProfile(userUpdateProfile));
+      return { email, displayName, uid, photoURL };
     } catch (error) {
-      alert(error.message);
-      console.log("error", error);
-      console.log("error.message", error.message);
+      return rejectWithValue(error.message);
     }
-  };
-
-export const authSignInUser =
-  ({ email, password }) =>
-  async (dispatch, getState) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      alert(error.message);
-      console.log("error", error);
-      console.log("error.code", error.code);
-      console.log("error.message", error.message);
-    }
-  };
-
-export const authSignOutUser = () => async (dispatch, getState) => {
-  try {
-    await signOut(auth);
-    dispatch(authSignOut());
-    dispatch(authStateChange({ stateChange: false }));
-  } catch (error) {
-    console.log(error);
   }
-};
+);
 
-export const authStateChangeUser = () => (dispatch, getState) => {
-  try {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userUpdateProfile = {
-          login: user.displayName,
-          userId: user.uid,
-          email: user.email,
-        };
+export const signIn = createAsyncThunk(
+  "auth/signIn",
+  async (data, { rejectWithValue }) => {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      const { email, displayName, uid, photoURL } = auth.currentUser;
 
-        dispatch(updateUserProfile(userUpdateProfile));
-        dispatch(authStateChange({ stateChange: true }));
+      return { email, displayName, uid, photoURL };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const logOut = createAsyncThunk(
+  "auth/logOut",
+  async (_, { rejectWithValue }) => {
+    try {
+      signOut(auth);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const isLoggedIn = createAsyncThunk(
+  "auth/isLoggedIn",
+  async (_, { rejectWithValue }) => {
+    try {
+      let displayName;
+      let email;
+      let avatar;
+      let id;
+      await onAuthStateChanged(auth, (user) => {
+        console.log("Auth state changed:", user);
+
+        if (user) {
+          displayName = user.displayName;
+          email = user.email;
+          avatar = user.photoURL;
+          id = user.uid;
+        }
+      });
+      if (!email) {
+        return rejectWithValue("Error");
       }
-    });
-  } catch (error) {
-    console.log(error);
+      return { displayName, email, avatar, id };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-};
+);
+
+export const changeAvatar = createAsyncThunk(
+  "auth/changeAvatar",
+  async (data, { rejectWithValue }) => {
+    try {
+      const { uid } = auth.currentUser;
+      const url = await uploadPhoto(data, "avatars", uid);
+
+      await updateProfile(auth.currentUser, {
+        photoURL: url,
+      });
+      const { photoURL } = auth.currentUser;
+
+      return { photoURL };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
